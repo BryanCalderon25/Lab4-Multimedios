@@ -1,18 +1,35 @@
-/* Estilos generales para visibilidad */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+/* Eliminamos márgenes para que pegue a los bordes de la pantalla */
+* {
+    box-sizing: border-box;
 }
 
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Obligamos al cuerpo a ocupar el alto total */
+    width: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Evita scrolls innecesarios si quieres pantalla exacta */
+}
+
+/* El Header tiene un alto fijo pequeño */
 .header {
     background-color: #cccccc;
-    padding: 15px;
+    padding: 0 20px;
+    height: 60px; /* Alto fijo para el logo/título */
+    display: flex;
+    align-items: center;
     font-weight: bold;
-    border: 1px solid #333;
-    margin-bottom: 5px;
-    font-size: 1.2rem;
+    border-bottom: 2px solid #333;
+    font-size: 1.5rem;
+}
+
+/* El contenedor principal ocupará el resto de la pantalla (100vh menos el alto del header) */
+.contenedor-principal {
+    display: grid;
+    gap: 0; /* Sin espacios para que luzca como bloques pegados */
+    height: calc(100vh - 60px); 
+    width: 100%;
 }
 
 .bloque {
@@ -21,48 +38,50 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    min-height: 100px;
+    font-size: 2.5rem;
 }
 
-/* --- CONFIGURACIÓN MÓVIL --- */
-.contenedor-principal {
-    display: grid;
-    gap: 5px;
-    /* Definimos 2 columnas iguales para C y D */
-    grid-template-columns: repeat(2, 1fr);
+/* --- CONFIGURACIÓN MÓVIL (Vertical) --- */
+@media (max-width: 767px) {
+    .contenedor-principal {
+        grid-template-columns: repeat(2, 1fr);
+        /* Definimos alturas proporcionales para móvil */
+        grid-template-rows: 2fr 1fr 1fr; 
+    }
+
+    .a { display: none; } /* Oculto en móvil */
+
+    .b { 
+        grid-column: span 2; 
+    } 
+
+    .c { grid-column: 1 / 2; }
+    .d { grid-column: 2 / 3; }
+
+    .e { 
+        grid-column: span 2; 
+    }
 }
 
-/* En móvil, el bloque A no aparece en tu imagen del celular */
-.a { display: none; }
-
-.b { grid-column: span 2; height: 200px; } /* B ocupa todo el ancho */
-.c { grid-column: span 1; }
-.d { grid-column: span 1; }
-.e { grid-column: span 2; } /* E ocupa todo el ancho */
-
-
-/* --- CONFIGURACIÓN PC (Escritorio) --- */
+/* --- CONFIGURACIÓN PC (Escritorio - Horizontal) --- */
 @media (min-width: 768px) {
     .contenedor-principal {
-        /* Definimos 3 columnas para la fila de abajo y proporciones arriba */
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto auto;
+        grid-template-columns: 1fr 2fr 1.5fr; /* Ajuste de anchos proporcionales */
+        grid-template-rows: 2fr 1fr; /* Fila superior más alta que la inferior */
     }
 
     .a { 
-        display: flex; /* Mostramos A en PC */
+        display: flex;
         grid-column: 1 / 2;
         grid-row: 1 / 2;
     }
 
     .b { 
-        grid-column: 2 / 4; /* Ocupa las otras dos columnas */
+        grid-column: 2 / 4; 
         grid-row: 1 / 2;
-        height: auto; 
     }
 
-    .c { grid-column: 1 / 2; }
-    .d { grid-column: 2 / 3; }
-    .e { grid-column: 3 / 4; }
+    .c { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .d { grid-column: 2 / 3; grid-row: 2 / 3; }
+    .e { grid-column: 3 / 4; grid-row: 2 / 3; }
 }
