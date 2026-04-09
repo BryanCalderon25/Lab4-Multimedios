@@ -1,4 +1,3 @@
-/* Eliminamos márgenes para que pegue a los bordes de la pantalla */
 * {
     box-sizing: border-box;
 }
@@ -6,82 +5,106 @@
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%; /* Obligamos al cuerpo a ocupar el alto total */
-    width: 100%;
     font-family: Arial, sans-serif;
-    overflow: hidden; /* Evita scrolls innecesarios si quieres pantalla exacta */
 }
 
-/* El Header tiene un alto fijo pequeño */
-.header {
+/* =========================
+   PRIMER LAYOUT
+   ========================= */
+
+.header1 {
     background-color: #cccccc;
-    padding: 0 20px;
-    height: 60px; /* Alto fijo para el logo/título */
+    height: 60px;
     display: flex;
     align-items: center;
+    padding: 0 20px;
     font-weight: bold;
     border-bottom: 2px solid #333;
-    font-size: 1.5rem;
 }
 
-/* El contenedor principal ocupará el resto de la pantalla (100vh menos el alto del header) */
-.contenedor-principal {
+.contenedor-principal1 {
     display: grid;
-    gap: 0; /* Sin espacios para que luzca como bloques pegados */
-    height: calc(100vh - 60px); 
-    width: 100%;
+    height: 100vh;
 }
 
+/* bloques */
 .bloque {
-    background-color: #fff;
     border: 1px solid #333;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
-/* --- CONFIGURACIÓN MÓVIL (Vertical) --- */
+/* móvil */
 @media (max-width: 767px) {
-    .contenedor-principal {
+    .contenedor-principal1 {
         grid-template-columns: repeat(2, 1fr);
-        /* Definimos alturas proporcionales para móvil */
-        grid-template-rows: 2fr 1fr 1fr; 
+        grid-template-rows: 2fr 1fr 1fr;
     }
 
-    .a { display: none; } /* Oculto en móvil */
+    .a { display: none; }
+    .b { grid-column: span 2; }
+    .e { grid-column: span 2; }
+}
 
-    .b { 
-        grid-column: span 2; 
-    } 
+/* pc */
+@media (min-width: 768px) {
+    .contenedor-principal1 {
+        grid-template-columns: 1fr 2fr 1.5fr;
+        grid-template-rows: 2fr 1fr;
+    }
 
-    .c { grid-column: 1 / 2; }
-    .d { grid-column: 2 / 3; }
+    .a { grid-column: 1; grid-row: 1; }
+    .b { grid-column: 2 / 4; }
+}
 
-    .e { 
-        grid-column: span 2; 
+/* =========================
+   SEGUNDO LAYOUT
+   ========================= */
+
+.contenedor-principal2 {
+    display: grid;
+    height: 100vh;
+}
+
+/* colores */
+.header  { background: #0070c0; grid-area: header; color: white; }
+.footer  { background: #0070c0; grid-area: footer; color: white; }
+.nav     { background: #00b0f0; grid-area: nav; color: white; }
+.aside   { background: #00b0f0; grid-area: aside; color: white; }
+.article { background: #bdc3c7; grid-area: article; }
+
+/* estilos comunes */
+header, nav, article, aside, footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* móvil */
+@media (max-width: 767px) {
+    .contenedor-principal2 {
+        grid-template-areas: 
+            "header"
+            "article"
+            "nav"
+            "aside"
+            "footer";
+
+        grid-template-rows: 70px 1fr 60px 60px 60px;
     }
 }
 
-/* --- CONFIGURACIÓN PC (Escritorio - Horizontal) --- */
+/* pc */
 @media (min-width: 768px) {
-    .contenedor-principal {
-        grid-template-columns: 1fr 2fr 1.5fr; /* Ajuste de anchos proporcionales */
-        grid-template-rows: 2fr 1fr; /* Fila superior más alta que la inferior */
-    }
+    .contenedor-principal2 {
+        grid-template-areas: 
+            "header header header"
+            "nav article aside"
+            "footer footer footer";
 
-    .a { 
-        display: flex;
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
+        grid-template-columns: 150px 1fr 150px;
+        grid-template-rows: 80px 1fr 80px;
     }
-
-    .b { 
-        grid-column: 2 / 4; 
-        grid-row: 1 / 2;
-    }
-
-    .c { grid-column: 1 / 2; grid-row: 2 / 3; }
-    .d { grid-column: 2 / 3; grid-row: 2 / 3; }
-    .e { grid-column: 3 / 4; grid-row: 2 / 3; }
 }
